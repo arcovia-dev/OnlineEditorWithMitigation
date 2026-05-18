@@ -1,5 +1,8 @@
 package org.dataflowanalysis.standalone.analysis;
 
+import dev.arcovia.mitigation.sat.Constraint;
+import dev.arcovia.mitigation.sat.Mechanic;
+import dev.arcovia.mitigation.sat.dsl.CNFTranslation;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,6 +20,7 @@ import org.dataflowanalysis.converter.pcm2dfd.PCMConverterModel;
 import org.dataflowanalysis.converter.web2dfd.Web2DFDConverter;
 import org.dataflowanalysis.converter.web2dfd.WebEditorConverterModel;
 import org.dataflowanalysis.converter.web2dfd.model.WebEditorDfd;
+import org.dataflowanalysis.converter.web2dfd.model.Annotation;
 import org.dataflowanalysis.dfd.datadictionary.DataDictionary;
 import org.dataflowanalysis.dfd.datadictionary.datadictionaryPackage;
 import org.dataflowanalysis.dfd.dataflowdiagram.DataFlowDiagram;
@@ -27,6 +31,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.sat4j.specs.ContradictionException;
+import org.sat4j.specs.TimeoutException;
 
 public class Converter {
     
@@ -131,7 +137,7 @@ public class Converter {
         }
     }
     
-    private static List<AnalysisConstraint> parseConstraints(WebEditorDfd webEditorDfd) {
+    public static List<AnalysisConstraint> parseConstraints(WebEditorDfd webEditorDfd) {
     	return webEditorDfd.constraints().stream()
 			.filter(it -> it.constraint() != null && !it.constraint().isEmpty())
 			.map(it -> {
@@ -144,5 +150,7 @@ public class Converter {
 				var constraint2 = constraint.getResult();
 				return constraint2;
 			}).toList();	    	
-    }
+    }    
+    
+    
 }

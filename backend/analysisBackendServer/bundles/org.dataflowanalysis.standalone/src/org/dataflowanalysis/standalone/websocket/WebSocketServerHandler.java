@@ -16,6 +16,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
+import org.dataflowanalysis.standalone.mitigation.*;
+
 public class WebSocketServerHandler extends WebSocketAdapter
 {
     private static Map<Integer, Session> sessions = new HashMap<>();
@@ -87,10 +89,15 @@ public class WebSocketServerHandler extends WebSocketAdapter
     	WebEditorDfd newJson = null;
     	
 		var name = message.split(":")[0];
-		message = message.replaceFirst(name + ":", "");	 
+		message = message.replaceFirst(name + ":", "");	 		
+		
     	
     	try {
-	    	if (message.startsWith("Json:")) {
+    	    if (message.startsWith("repair:")) {
+    	        message = message.substring(message.indexOf(":") + 1);
+    	        newJson = deserializeJsonAndRepair(message);
+    	    }
+    	    else if (message.startsWith("Json:")) {
 	    		message = message.substring(message.indexOf(":") + 1);	    		
 				newJson = deserializeJsonAndAnnotate(message);	    				
 	    	}
@@ -141,6 +148,27 @@ public class WebSocketServerHandler extends WebSocketAdapter
 		objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 		objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
 		return webEditorDfd;
+    }
+    
+    private WebEditorDfd deserializeJsonAndRepair(String json){
+        var objectMapper = new ObjectMapper();
+        WebEditorDfd webEditorDfd;
+        String type = json.split(":")[0];
+        json = json.replace(type + ":", "");
+        try {
+            webEditorDfd = objectMapper.readValue(json, WebEditorDfd.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException("Invalid Json Model");
+        } 
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        try {
+            return MitigationAddon.repairDFD(webEditorDfd, type);
+        } catch (Exception e) {
+            e.printStackTrace(); 
+            return null;
+        }
     }
     
     private WebEditorDfd safeLoadAndConvertDFDString(String message, String name) {

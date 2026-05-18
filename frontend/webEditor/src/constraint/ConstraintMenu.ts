@@ -18,6 +18,7 @@ import { constraintDslLanguageMonarchDefinition, ConstraintDslTreeBuilder, DSL_L
 import { verify } from "../languages/verify";
 import { DfdCompletionItemProvider } from "../languages/autocomplete";
 import { AnalyzeAction } from "../serialize/analyze";
+import { RepairAction, RepairType } from "../serialize/repair";
 import { ApplyableTheme, Theme, ThemeManager, ThemeSwitchable } from "../settings/Theme";
 import { SelectConstraintsAction } from "./selection";
 
@@ -28,6 +29,7 @@ export class ConstraintMenu extends AccordionUiExtension implements ThemeSwitcha
     private validationLabel: HTMLDivElement = document.createElement("div") as HTMLDivElement;
     private editor?: editor.IStandaloneCodeEditor;
     private optionsMenu?: HTMLDivElement;
+    private repairMenu?: HTMLDivElement;
     private ignoreCheckboxChange = false;
     private readonly tree: LanguageTreeNode<Word>[];
 
@@ -83,6 +85,7 @@ export class ConstraintMenu extends AccordionUiExtension implements ThemeSwitcha
     protected initializeContents(containerElement: HTMLElement): void {
         super.initializeContents(containerElement);
         containerElement.appendChild(this.buildRunButton());
+        containerElement.appendChild(this.buildRepairButton());
     }
 
     private buildConstraintInputWrapper(): HTMLElement {
@@ -182,6 +185,70 @@ export class ConstraintMenu extends AccordionUiExtension implements ThemeSwitcha
 
         wrapper.appendChild(button);
         return wrapper;
+    }
+
+    private buildRepairButton(): HTMLElement {
+        const wrapper = document.createElement("div");
+        wrapper.id = "repair-button-container";
+
+        const button = document.createElement("button");
+        button.id = "repair-button";
+        button.innerHTML = "Repair";
+        button.onclick = () => {
+            this.toggleRepairMenu(wrapper);
+        };
+
+        wrapper.appendChild(button);
+        return wrapper;
+    }
+
+    private toggleRepairMenu(parent: HTMLElement): void {
+        if (this.repairMenu) {
+            this.repairMenu.remove();
+            this.repairMenu = undefined;
+            return;
+        }
+
+        this.repairMenu = document.createElement("div");
+        this.repairMenu.id = "repair-options-menu";
+
+        const entries = [
+            { label: "SAT", action: () => this.runRepair("SAT") },
+            { label: "SMT", action: () => this.runRepair("SMT") },
+            { label: "ILP", action: () => this.runRepair("ILP") },
+        ];
+
+        entries.forEach((entry) => {
+            const item = document.createElement("button");
+            item.classList.add("repair-options-item");
+            item.innerText = entry.label;
+            item.onclick = () => {
+                entry.action();
+                this.repairMenu?.remove();
+                this.repairMenu = undefined;
+            };
+            this.repairMenu!.appendChild(item);
+        });
+
+        parent.appendChild(this.repairMenu);
+
+        const onClickOutside = (e: MouseEvent) => {
+            const target = e.target as Node;
+            if (!this.repairMenu || parent.contains(target)) return;
+
+            this.repairMenu.remove();
+            this.repairMenu = undefined;
+            document.removeEventListener("click", onClickOutside);
+        };
+
+        document.addEventListener("click", onClickOutside);
+    }
+
+    private runRepair(type: RepairType): void {
+        this.dispatcher.dispatchAll([
+            RepairAction.create(type),
+            SelectConstraintsAction.create(this.constraintRegistry.getConstraintList().map((c) => c.name)),
+        ]);
     }
 
     protected onBeforeShow(): void {
