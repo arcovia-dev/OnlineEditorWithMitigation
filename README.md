@@ -14,7 +14,9 @@ cd OnlineEditorWithMitigation/frontend/webEditor
 npm install
 ```
 Now you need to change the Websocket Ip to the Ip of your server, or the local adress.
-This is done Frontend/WebEditor/src/webSocket/webSocket.ts
+
+This is done in Frontend/WebEditor/src/webSocket/webSocket.ts
+
 For local use: "ws://localhost:3000/events/"
 
 ### Setup Backend With Mitigation
@@ -22,6 +24,7 @@ For local use: "ws://localhost:3000/events/"
 To set up the backend, download our product at https://github.com/DataFlowAnalysis/DataFlowAnalysis/releases.
 
 Clone https://github.com/arcovia-dev/Mitigation and checkout the correct branch.
+
 Import into eclipse.
 
 Now import the OnlineEditor\backend\analysisBackendServer project into eclipse and set the target platform as active.
