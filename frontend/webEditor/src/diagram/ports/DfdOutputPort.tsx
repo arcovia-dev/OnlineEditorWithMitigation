@@ -44,6 +44,7 @@ export class DfdOutputPortImpl extends DfdPortImpl {
      */
     geViewStyleObject(): VNodeStyle {
         const style: VNodeStyle = {
+            ...(this.cssStyle ?? {}),
             opacity: this.opacity.toString(),
         };
 
@@ -70,6 +71,10 @@ export class DfdOutputPortImpl extends DfdPortImpl {
         }
         const errors = verify(tokenize(this.behavior.split("\n")), this.tree);
         this.validBehavior = errors.length === 0;
+    }
+
+    public setBehaviorValid(value: boolean) {
+        this.validBehavior = value;
     }
 
     public getBehavior() {

@@ -46,13 +46,13 @@ export abstract class LoadJsonCommand extends Command {
     private file: FileData<SavedDiagram> | undefined;
 
     constructor(
-        private readonly logger: ILogger,
+        protected readonly logger: ILogger,
         protected readonly labelTypeRegistry: LabelTypeRegistry,
         protected constraintRegistry: ConstraintRegistry,
         protected editorModeController: EditorModeController,
-        private actionDispatcher: ActionDispatcher,
+        public actionDispatcher: ActionDispatcher,
         protected fileName: FileName,
-        private loadingIndicator: LoadingIndicator,
+        protected loadingIndicator: LoadingIndicator,
     ) {
         super();
     }
@@ -65,13 +65,13 @@ export abstract class LoadJsonCommand extends Command {
 
         this.file = await this.getFile(context).catch(() => undefined);
         if (!this.file) {
-            this.loadingIndicator.hide();
+            this.loadingIndicator.hideIndicator();
             this.actionDispatcher.dispatch(InitializeCanvasBoundsAction.create(this.oldRoot.canvasBounds));
             return this.oldRoot;
         }
 
         try {
-            const newSchema = LoadJsonCommand.preprocessModelSchema(this.file.content.model);
+            const newSchema = this.preprocessModelSchema(this.file.content.model);
             this.newRoot = context.modelFactory.createRoot(newSchema);
 
             this.logger.info(this, "Model loaded successfully");
@@ -108,13 +108,14 @@ export abstract class LoadJsonCommand extends Command {
             this.oldFileName = this.fileName.getName();
             this.fileName.setName(this.file.fileName);
 
-            this.loadingIndicator.hide();
+            this.loadingIndicator.hideIndicator();
             return this.newRoot;
         } catch (error) {
             this.logger.error(this, "Error loading model", error);
+            alert(error);
             this.newRoot = this.oldRoot;
             this.actionDispatcher.dispatch(InitializeCanvasBoundsAction.create(this.oldRoot.canvasBounds));
-            this.loadingIndicator.hide();
+            this.loadingIndicator.hideIndicator();
             return this.oldRoot;
         }
     }
@@ -143,7 +144,7 @@ export abstract class LoadJsonCommand extends Command {
 
         this.fileName.setName(this.oldFileName ?? "diagram");
 
-        this.loadingIndicator.hide();
+        this.loadingIndicator.hideIndicator();
         return this.oldRoot ?? context.modelFactory.createRoot(EMPTY_ROOT);
     }
 
@@ -175,7 +176,7 @@ export abstract class LoadJsonCommand extends Command {
 
         this.fileName.setName(this.file?.fileName ?? "diagram");
 
-        this.loadingIndicator.hide();
+        this.loadingIndicator.hideIndicator();
         return this.newRoot ?? this.oldRoot ?? context.modelFactory.createRoot(EMPTY_ROOT);
     }
 
@@ -196,7 +197,7 @@ export abstract class LoadJsonCommand extends Command {
      *
      * @param modelSchema The model schema to preprocess
      */
-    public static preprocessModelSchema(modelSchema: SModelRoot): SModelRoot {
+    public preprocessModelSchema(modelSchema: SModelRoot): SModelRoot {
         // These properties are all not included in the root typing and if present are not loaded and handled correctly. So they are removed.
         if ("features" in modelSchema) {
             delete modelSchema["features"];
@@ -211,7 +212,7 @@ export abstract class LoadJsonCommand extends Command {
         return modelSchema;
     }
 
-    private async postLoadActions() {
+    public async postLoadActions() {
         if (!this.newRoot) {
             return;
         }

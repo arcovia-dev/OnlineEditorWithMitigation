@@ -245,12 +245,14 @@ export class AssignmentEditUi extends AbstractUIExtension {
             this.validationLabel.innerText = "Assignments are valid";
             this.validationLabel.classList.remove("validation-error");
             this.validationLabel.classList.add("validation-success");
+            this.port?.setBehaviorValid(true);
         } else {
             this.validationLabel.innerText = `Assignments are invalid: ${marker.length} error${
                 marker.length === 1 ? "" : "s"
             }.`;
             this.validationLabel.classList.remove("validation-success");
             this.validationLabel.classList.add("validation-error");
+            this.port?.setBehaviorValid(false);
         }
 
         editor.setModelMarkers(model, "constraint", marker);
