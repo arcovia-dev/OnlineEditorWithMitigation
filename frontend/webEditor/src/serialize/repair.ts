@@ -1,4 +1,4 @@
-import { ActionDispatcher, CommandExecutionContext, ILogger, TYPES, SModelRoot } from "sprotty";
+import { ActionDispatcher, CommandExecutionContext, ILogger, TYPES } from "sprotty";
 import { FileData, LoadJsonCommand } from "./loadJson";
 import { CURRENT_VERSION, SavedDiagram } from "./SavedDiagram";
 import { LabelTypeRegistry } from "../labels/LabelTypeRegistry";
@@ -7,10 +7,11 @@ import { FileName } from "../fileName/fileName";
 import { DfdApiClient } from "../dfdApiClient/dfdApiClient";
 import { inject } from "inversify";
 import { EditorModeController } from "../settings/editorMode";
-import { Action, getBasicType } from "sprotty-protocol";
+import { Action, getBasicType, SModelRoot } from "sprotty-protocol";
 import { ConstraintRegistry } from "../constraint/constraintRegistry";
 import { LoadingIndicator } from "../loadingIndicator/loadingIndicator";
 import { DfdNodeImpl } from "../diagram/nodes/common";
+import { DfdPortImpl } from "../diagram/ports/common";
 
 export type RepairType = "sat" | "smt" | "ilp";
 
@@ -81,14 +82,18 @@ export class RepairCommand extends LoadJsonCommand {
     }
 
     private annotateMititgation(modelSchema: SModelRoot) {
-        const nodes = modelSchema.children.filter((node) => getBasicType(node) === "node") as DfdNodeImpl[];
+        const nodes = (modelSchema.children ?? []).filter(
+            (node) => getBasicType(node) === "node",
+        ) as unknown as DfdNodeImpl[];
         const portMessageMap = this.getPortMessageMap(this.mitigationInfo);
 
         nodes.forEach((node) => {
-            node.ports.forEach((port) => {
+            node.ports.forEach((rawPort) => {
+                const port = rawPort as unknown as DfdPortImpl;
+
                 if (portMessageMap.has(port.id)) {
-                    port.cssStyle = {
-                        ...port.cssStyle,
+                    port.customCssStyle = {
+                        ...port.customCssStyle,
                         "--port-color": "#ff9800",
                         "--port-border": "#ff9800",
                     };

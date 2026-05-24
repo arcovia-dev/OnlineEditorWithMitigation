@@ -7,7 +7,7 @@
 	<property name="basearch" value="${arch}"/>
 	<property name="basenl" value="${nl}"/>
 	<property name="bundleId" value="org.dataflowanalysis.standalone"/>
-	<property name="bundleVersion" value="1.0.0.202605241249"/>
+	<property name="bundleVersion" value="1.0.0.202605241315"/>
 	<property name="p2.publishonerror" value="false"/>
 
 	<!-- Compiler settings. -->
@@ -47,7 +47,7 @@
 			<isset property="buildTempFolder"/>
 		</condition>
 		<property name="pluginTemp" value="${basedir}"/>
-		<condition property="build.result.folder" value="${pluginTemp}/org.dataflowanalysis.standalone_1.0.0.202605241249"		>
+		<condition property="build.result.folder" value="${pluginTemp}/org.dataflowanalysis.standalone_1.0.0.202605241315"		>
 			<isset property="buildTempFolder"/>
 		</condition>
 		<property name="build.result.folder" value="${basedir}"/>
@@ -77,7 +77,7 @@
 		<antcall target="gather.bin.parts">
 			<param name="destination.temp.folder" value="${temp.folder}/"/>
 		</antcall>
-		<jar destfile="${plugin.destination}/org.dataflowanalysis.standalone_1.0.0.202605241249.jar" basedir="${temp.folder}/org.dataflowanalysis.standalone_1.0.0.202605241249" filesetmanifest="merge"/>
+		<jar destfile="${plugin.destination}/org.dataflowanalysis.standalone_1.0.0.202605241315.jar" basedir="${temp.folder}/org.dataflowanalysis.standalone_1.0.0.202605241315" filesetmanifest="merge"/>
 		<delete dir="${temp.folder}"/>
 	</target>
 
@@ -320,28 +320,28 @@
 	</target>
 
 	<target name="checkCompilationResults" if="compilation.error.occured">
-		<echo file="${compilation.problem.marker}" message="org.dataflowanalysis.standalone_1.0.0.202605241249${line.separator}compilation.error.occured=${compilation.error.occured}"/>
-		<eclipse.logCompileError log="${compilation.prereq.log}" bundle="org.dataflowanalysis.standalone_1.0.0.202605241249">
+		<echo file="${compilation.problem.marker}" message="org.dataflowanalysis.standalone_1.0.0.202605241315${line.separator}compilation.error.occured=${compilation.error.occured}"/>
+		<eclipse.logCompileError log="${compilation.prereq.log}" bundle="org.dataflowanalysis.standalone_1.0.0.202605241315">
 			<include name="C:/Users/Huell/Documents/Studium/HIWI/DataFlowAnalysis/bundles/org.dataflowanalysis.analysis/compilation.problem"/>
-			<include name="${pluginTemp}/org.dataflowanalysis.analysis_5.0.0.202605241249/compilation.problem"/>
+			<include name="${pluginTemp}/org.dataflowanalysis.analysis_5.0.0.202605241315/compilation.problem"/>
 			<include name="C:/Users/Huell/Documents/Studium/HIWI/DataFlowAnalysis/bundles/org.dataflowanalysis.analysis.dfd/compilation.problem"/>
-			<include name="${pluginTemp}/org.dataflowanalysis.analysis.dfd_5.0.0.202605241249/compilation.problem"/>
+			<include name="${pluginTemp}/org.dataflowanalysis.analysis.dfd_5.0.0.202605241315/compilation.problem"/>
 			<include name="C:/Users/Huell/Documents/Studium/HIWI/DataFlowAnalysis/bundles/org.dataflowanalysis.analysis.pcm/compilation.problem"/>
-			<include name="${pluginTemp}/org.dataflowanalysis.analysis.pcm_5.0.0.202605241249/compilation.problem"/>
+			<include name="${pluginTemp}/org.dataflowanalysis.analysis.pcm_5.0.0.202605241315/compilation.problem"/>
 			<include name="C:/Users/Huell/Documents/Studium/HIWI/DataFlowAnalysis/bundles/org.dataflowanalysis.converter/compilation.problem"/>
-			<include name="${pluginTemp}/org.dataflowanalysis.converter_5.0.0.202605241249/compilation.problem"/>
+			<include name="${pluginTemp}/org.dataflowanalysis.converter_5.0.0.202605241315/compilation.problem"/>
 			<include name="C:/Users/Huell/Documents/Studium/HIWI/DataFlowAnalysis/bundles/org.dataflowanalysis.dfd.datadictionary/compilation.problem"/>
-			<include name="${pluginTemp}/org.dataflowanalysis.dfd.datadictionary_5.0.0.202605241249/compilation.problem"/>
+			<include name="${pluginTemp}/org.dataflowanalysis.dfd.datadictionary_5.0.0.202605241315/compilation.problem"/>
 			<include name="C:/Users/Huell/Documents/Studium/HIWI/DataFlowAnalysis/bundles/org.dataflowanalysis.dfd.dataflowdiagram/compilation.problem"/>
-			<include name="${pluginTemp}/org.dataflowanalysis.dfd.dataflowdiagram_5.0.0.202605241249/compilation.problem"/>
+			<include name="${pluginTemp}/org.dataflowanalysis.dfd.dataflowdiagram_5.0.0.202605241315/compilation.problem"/>
 			<include name="C:/Users/Huell/Documents/Studium/HIWI/DataFlowAnalysis/bundles/org.dataflowanalysis.examplemodels/compilation.problem"/>
-			<include name="${pluginTemp}/org.dataflowanalysis.examplemodels_5.0.0.202605241249/compilation.problem"/>
+			<include name="${pluginTemp}/org.dataflowanalysis.examplemodels_5.0.0.202605241315/compilation.problem"/>
 			<include name="C:/Users/Huell/Documents/Studium/HIWI/Mitigation/bundles/dev.arcovia.mitigation.ilp/compilation.problem"/>
-			<include name="${pluginTemp}/dev.arcovia.mitigation.ilp_1.0.0.202605241249/compilation.problem"/>
+			<include name="${pluginTemp}/dev.arcovia.mitigation.ilp_1.0.0.202605241315/compilation.problem"/>
 			<include name="C:/Users/Huell/Documents/Studium/HIWI/Mitigation/bundles/dev.arcovia.mitigation.sat/compilation.problem"/>
-			<include name="${pluginTemp}/dev.arcovia.mitigation.sat_1.0.0.202605241249/compilation.problem"/>
+			<include name="${pluginTemp}/dev.arcovia.mitigation.sat_1.0.0.202605241315/compilation.problem"/>
 			<include name="C:/Users/Huell/Documents/Studium/HIWI/Mitigation/bundles/dev.arcovia.mitigation.smt/compilation.problem"/>
-			<include name="${pluginTemp}/dev.arcovia.mitigation.smt_1.0.0.202605241249/compilation.problem"/>
+			<include name="${pluginTemp}/dev.arcovia.mitigation.smt_1.0.0.202605241315/compilation.problem"/>
 		</eclipse.logCompileError>
 	</target>
 
@@ -351,7 +351,7 @@
 	</target>
 
 	<target name="publish.bin.parts" depends="init" if="p2.publish.parts" unless="compilation.problem.marker.exists">
-		<mkdir dir="${build.result.folder}/org.dataflowanalysis.standalone_1.0.0.202605241249"/>
+		<mkdir dir="${build.result.folder}/org.dataflowanalysis.standalone_1.0.0.202605241315"/>
 		<copy todir="${build.result.folder}" failonerror="true" overwrite="true">
 			<fileset dir="${basedir}">
 				<include name="META-INF/MANIFEST.MF"/>
@@ -359,7 +359,7 @@
 				<include name="fragment.xml"/>
 			</fileset>
 		</copy>
-		<eclipse.versionReplacer path="${build.result.folder}" version="1.0.0.202605241249"/>
+		<eclipse.versionReplacer path="${build.result.folder}" version="1.0.0.202605241315"/>
 		<antcall target="apitools.generation">
 			<param name="projectLocation" value="${basedir}"/>
 			<param name="binary.folders" value="${build.result.folder}/@dot"/>
@@ -376,24 +376,24 @@
 	</target>
 
 	<target name="gather.bin.parts" depends="init" if="destination.temp.folder">
-		<mkdir dir="${destination.temp.folder}/org.dataflowanalysis.standalone_1.0.0.202605241249"/>
-		<copy todir="${destination.temp.folder}/org.dataflowanalysis.standalone_1.0.0.202605241249" failonerror="true" overwrite="false">
+		<mkdir dir="${destination.temp.folder}/org.dataflowanalysis.standalone_1.0.0.202605241315"/>
+		<copy todir="${destination.temp.folder}/org.dataflowanalysis.standalone_1.0.0.202605241315" failonerror="true" overwrite="false">
 			<fileset dir="${build.result.folder}/@dot">
 				<include name="**"/>
 			</fileset>
 		</copy>
-		<copy todir="${destination.temp.folder}/org.dataflowanalysis.standalone_1.0.0.202605241249" failonerror="true" overwrite="true">
+		<copy todir="${destination.temp.folder}/org.dataflowanalysis.standalone_1.0.0.202605241315" failonerror="true" overwrite="true">
 			<fileset dir="${basedir}">
 				<include name="META-INF/"/>
 				<include name="plugin.xml"/>
 			</fileset>
 		</copy>
-		<eclipse.versionReplacer path="${destination.temp.folder}/org.dataflowanalysis.standalone_1.0.0.202605241249" version="1.0.0.202605241249"/>
+		<eclipse.versionReplacer path="${destination.temp.folder}/org.dataflowanalysis.standalone_1.0.0.202605241315" version="1.0.0.202605241315"/>
 		<antcall target="apitools.generation">
 			<param name="projectLocation" value="${basedir}"/>
 			<param name="binary.folders" value="${build.result.folder}/@dot"/>
 			<param name="projectName" value="${bundleId}_${bundleVersion}"/>
-			<param name="target.folder" value="${destination.temp.folder}/org.dataflowanalysis.standalone_1.0.0.202605241249"/>
+			<param name="target.folder" value="${destination.temp.folder}/org.dataflowanalysis.standalone_1.0.0.202605241315"/>
 		</antcall>
 	</target>
 
@@ -401,10 +401,10 @@
 	</target>
 
 	<target name="gather.sources" depends="init" if="destination.temp.folder">
-		<mkdir dir="${destination.temp.folder}/org.dataflowanalysis.standalone_1.0.0.202605241249"/>
-		<copy file="${build.result.folder}/src.zip" todir="${destination.temp.folder}/org.dataflowanalysis.standalone_1.0.0.202605241249" failonerror="false" overwrite="false"/>
+		<mkdir dir="${destination.temp.folder}/org.dataflowanalysis.standalone_1.0.0.202605241315"/>
+		<copy file="${build.result.folder}/src.zip" todir="${destination.temp.folder}/org.dataflowanalysis.standalone_1.0.0.202605241315" failonerror="false" overwrite="false"/>
 		<antcall target="copy.src.includes">
-			<param name="source.destination.folder" value="${destination.temp.folder}/org.dataflowanalysis.standalone_1.0.0.202605241249"/>
+			<param name="source.destination.folder" value="${destination.temp.folder}/org.dataflowanalysis.standalone_1.0.0.202605241315"/>
 		</antcall>
 	</target>
 
@@ -421,8 +421,8 @@
 	</target>
 
 	<target name="gather.logs" depends="init" if="destination.temp.folder">
-		<mkdir dir="${destination.temp.folder}/org.dataflowanalysis.standalone_1.0.0.202605241249"/>
-		<copy todir="${destination.temp.folder}/org.dataflowanalysis.standalone_1.0.0.202605241249" failonerror="false" overwrite="false">
+		<mkdir dir="${destination.temp.folder}/org.dataflowanalysis.standalone_1.0.0.202605241315"/>
+		<copy todir="${destination.temp.folder}/org.dataflowanalysis.standalone_1.0.0.202605241315" failonerror="false" overwrite="false">
 			<fileset dir="${build.result.folder}">
 				<include name="@dot${logExtension}"/>
 			</fileset>
@@ -432,8 +432,8 @@
 	<target name="clean" depends="init" description="Clean the plug-in: org.dataflowanalysis.standalone of all the zips, jars and logs created.">
 		<delete dir="${build.result.folder}/@dot"/>
 		<delete file="${build.result.folder}/src.zip"/>
-		<delete file="${plugin.destination}/org.dataflowanalysis.standalone_1.0.0.202605241249.jar"/>
-		<delete file="${plugin.destination}/org.dataflowanalysis.standalone_1.0.0.202605241249.zip"/>
+		<delete file="${plugin.destination}/org.dataflowanalysis.standalone_1.0.0.202605241315.jar"/>
+		<delete file="${plugin.destination}/org.dataflowanalysis.standalone_1.0.0.202605241315.zip"/>
 		<delete dir="${temp.folder}"/>
 		<delete file="${compilation.problem.marker}" quiet="true"/>
 	</target>
@@ -459,7 +459,7 @@
 				<include name="**/*.bin${logExtension}"/>
 			</fileset>
 		</delete>
-		<zip destfile="${plugin.destination}/org.dataflowanalysis.standalone_1.0.0.202605241249.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
+		<zip destfile="${plugin.destination}/org.dataflowanalysis.standalone_1.0.0.202605241315.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
 		<delete dir="${temp.folder}"/>
 	</target>
 

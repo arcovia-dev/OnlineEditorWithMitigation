@@ -44,7 +44,7 @@ export class DfdOutputPortImpl extends DfdPortImpl {
      */
     geViewStyleObject(): VNodeStyle {
         const style: VNodeStyle = {
-            ...(this.cssStyle ?? {}),
+            ...(this.customCssStyle ?? {}),
             opacity: this.opacity.toString(),
         };
 

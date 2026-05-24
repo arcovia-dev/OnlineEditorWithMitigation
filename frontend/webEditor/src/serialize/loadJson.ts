@@ -212,6 +212,23 @@ export abstract class LoadJsonCommand extends Command {
         return modelSchema;
     }
 
+    public static preprocessModelSchema(modelSchema: SModelRoot): SModelRoot {
+        if ("features" in modelSchema) {
+            delete modelSchema["features"];
+        }
+        if ("canvasBounds" in modelSchema) {
+            delete modelSchema["canvasBounds"];
+        }
+
+        if (modelSchema.children) {
+            modelSchema.children.forEach((child: SModelElement) =>
+                LoadJsonCommand.preprocessModelSchema(child as SModelRoot),
+            );
+        }
+
+        return modelSchema;
+    }
+
     public async postLoadActions() {
         if (!this.newRoot) {
             return;
