@@ -20,4 +20,12 @@ export default defineConfig({
             },
         },
     },
+    server: {
+        proxy: {
+            "/api": {
+                target: "https://webeditor.t-hueller.de",
+                changeOrigin: true,
+            },
+        },
+    },
 });
