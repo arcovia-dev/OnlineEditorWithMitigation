@@ -4,7 +4,6 @@ import { inject } from "inversify";
 import { LabelTypeRegistry } from "../labels/LabelTypeRegistry";
 
 import "./MitigationOptions.css";
-import { KeyListener } from "sprotty";
 import { SETTINGS } from "../settings/Settings";
 import { EditorModeController } from "../settings/editorMode";
 import { Action } from "sprotty-protocol";
@@ -13,7 +12,7 @@ import { MitigationRegistry } from "./MitigationRegistry";
 import { MitigationOption, MitigationType } from "./Mitigation";
 import { ConstraintRegistry } from "../constraint/constraintRegistry";
 
-export class MitigationOptionsUI extends AccordionUiExtension implements KeyListener {
+export class MitigationOptionsUI extends AccordionUiExtension {
     static readonly ID = "mitigation-options";
     private mitigationOptionContainer?: HTMLElement;
 
