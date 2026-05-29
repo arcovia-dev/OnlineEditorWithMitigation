@@ -23,6 +23,7 @@ public abstract class Servlet extends HttpServlet{
             var result = doSpecific(message, name);            
             writeText(response, HttpServletResponse.SC_OK, name + ":" + result);
         } catch (IllegalArgumentException e) {
+            e.printStackTrace();
             writeText(response, HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
 
         } catch (Exception e) {

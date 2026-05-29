@@ -47,6 +47,7 @@ public class MitigationServlet extends Servlet{
     
     protected String doSpecific(String message, String name){
         try {
+            System.out.println("MEssage" + message);
             return activeService.repairDFD(message);
         
         }catch (ContradictionException e) {

@@ -12,6 +12,7 @@ import { ConstraintRegistry } from "../constraint/constraintRegistry";
 import { LoadingIndicator } from "../loadingIndicator/loadingIndicator";
 import { DfdNodeImpl } from "../diagram/nodes/common";
 import { DfdPortImpl } from "../diagram/ports/common";
+import { MitigationRegistry } from "../mitigation/MitigationRegistry";
 
 export type RepairType = "sat" | "smt" | "ilp";
 
@@ -33,11 +34,13 @@ export namespace RepairAction {
 export class RepairCommand extends LoadJsonCommand {
     static readonly KIND = RepairAction.KIND;
     mitigationInfo: string = "";
+    mitigationRegistry: MitigationRegistry;
 
     constructor(
         @inject(TYPES.Action) private readonly action: RepairAction,
         @inject(TYPES.ILogger) logger: ILogger,
         @inject(LabelTypeRegistry) labelTypeRegistry: LabelTypeRegistry,
+        @inject(MitigationRegistry) mitigationRegistry: MitigationRegistry,
         @inject(ConstraintRegistry) constraintRegistry: ConstraintRegistry,
         @inject(SETTINGS.Mode) editorModeController: EditorModeController,
         @inject(FileName) fileName: FileName,
@@ -54,6 +57,7 @@ export class RepairCommand extends LoadJsonCommand {
             fileName,
             loadingIndicator,
         );
+        this.mitigationRegistry = mitigationRegistry;
     }
 
     protected async getFile(context: CommandExecutionContext): Promise<FileData<SavedDiagram> | undefined> {
@@ -65,8 +69,13 @@ export class RepairCommand extends LoadJsonCommand {
             version: CURRENT_VERSION,
         };
 
+        const requestBody = {
+            diagram: JSON.stringify(savedDiagram),
+            mitigations: JSON.stringify(this.mitigationRegistry.getMitigations()),
+        };
+
         const serverResponse = await this.dfdApiClient.requestDiagram(
-            JSON.stringify(savedDiagram),
+            JSON.stringify(requestBody),
             "repair/" + this.action.repairType,
         );
 

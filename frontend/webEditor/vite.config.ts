@@ -24,6 +24,7 @@ export default defineConfig({
         proxy: {
             "/api": {
                 target: "https://webeditor.t-hueller.de",
+                //target: "http://localhost:3000",
                 changeOrigin: true,
             },
         },
