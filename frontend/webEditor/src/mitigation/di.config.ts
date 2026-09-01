@@ -10,5 +10,4 @@ export const mitigationModule = new ContainerModule((bind) => {
     bind(MitigationOptionsUI).toSelf().inSingletonScope();
     bind(TYPES.IUIExtension).toService(MitigationOptionsUI);
     bind(EDITOR_TYPES.DefaultUIElement).to(MitigationOptionsUI);
-    bind(TYPES.KeyListener).toService(MitigationOptionsUI);
 });
