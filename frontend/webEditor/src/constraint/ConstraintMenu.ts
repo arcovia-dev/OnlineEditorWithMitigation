@@ -213,9 +213,9 @@ export class ConstraintMenu extends AccordionUiExtension implements ThemeSwitcha
         this.repairMenu.id = "repair-options-menu";
 
         const entries = [
-            { label: "SAT", action: () => this.runRepair("SAT") },
-            { label: "SMT", action: () => this.runRepair("SMT") },
-            { label: "ILP", action: () => this.runRepair("ILP") },
+            { label: "SAT", action: () => this.runRepair("sat") },
+            { label: "SMT", action: () => this.runRepair("smt") },
+            { label: "ILP", action: () => this.runRepair("ilp") },
         ];
 
         entries.forEach((entry) => {

@@ -14,7 +14,7 @@ import { commonModule } from "./commonModule";
 import { labelModule } from "./labels/di.config";
 import { serializeModule } from "./serialize/di.config";
 import { diagramModule } from "./diagram/di.config";
-import { webSocketModule } from "./webSocket/di.config";
+import { dfdApiModule } from "./dfdApiClient/di.config";
 import { commandPaletteModule } from "./commandPalette/di.config";
 import { layoutModule } from "./layout/di.config";
 import { elkLayoutModule } from "sprotty-elk";
@@ -26,6 +26,7 @@ import { assignmentModule } from "./assignment/di.config";
 import { editorModeOverwritesModule } from "./editModeOverwrites/di.config";
 import { loadingIndicatorModule } from "./loadingIndicator/di.config";
 import { keyListenerModule } from "./keyListeners/di.config";
+import { mitigationModule } from "./mitigation/di.config";
 
 const container = new Container();
 
@@ -43,7 +44,7 @@ container.load(
     labelModule,
     diagramModule,
     serializeModule,
-    webSocketModule,
+    dfdApiModule,
     commandPaletteModule,
     elkLayoutModule,
     layoutModule,
@@ -55,6 +56,7 @@ container.load(
     editorModeOverwritesModule,
     loadingIndicatorModule,
     keyListenerModule,
+    mitigationModule,
 );
 
 const startUpAgents = container.getAll<IStartUpAgent>(StartUpAgent);
