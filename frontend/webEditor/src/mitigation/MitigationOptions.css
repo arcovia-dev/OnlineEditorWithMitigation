@@ -146,4 +146,9 @@
     .mitigation-label-dropdown-item span {
         min-width: 0;
     }
+
+    .mitigation-type-of-label-checkbox.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
 }

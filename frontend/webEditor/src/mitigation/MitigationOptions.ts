@@ -112,7 +112,16 @@ export class MitigationOptionsUI extends AccordionUiExtension {
         select.value = mitigation.type;
 
         select.onchange = () => {
-            this.mitigationRegistry.updateMitigationType(mitigation.id, select.value as MitigationType);
+            const newType = select.value as MitigationType;
+
+            this.mitigationRegistry.updateMitigationType(mitigation.id, newType);
+
+            if (
+                (newType === MitigationType.NodeLabel || newType === MitigationType.DeleteNodeLabel) &&
+                mitigation.typeOfLabel === "Incoming"
+            ) {
+                this.mitigationRegistry.updateMitigationTypeOfLabel(mitigation.id, "Node");
+            }
         };
 
         return select;
@@ -169,7 +178,16 @@ export class MitigationOptionsUI extends AccordionUiExtension {
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
         checkbox.checked = mitigation.typeOfLabel === typeOfLabel;
-        checkbox.disabled = this.editorModeController.isReadOnly();
+
+        const incomingDisabled =
+            typeOfLabel === "Incoming" &&
+            (mitigation.type === MitigationType.NodeLabel || mitigation.type === MitigationType.DeleteNodeLabel);
+
+        checkbox.disabled = this.editorModeController.isReadOnly() || incomingDisabled;
+
+        if (incomingDisabled) {
+            label.classList.add("disabled");
+        }
 
         checkbox.onchange = () => {
             if (!checkbox.checked) {
